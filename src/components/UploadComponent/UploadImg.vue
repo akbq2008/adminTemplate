@@ -1,5 +1,5 @@
 <template>
-<div>
+<div style="position:relative">
 	<div v-if="imgUrl" class="relative">
 		<img
 			:src="imgUrl"
@@ -12,7 +12,7 @@
 			@click="previewImg(imgUrl)"
 		/>
 		<img
-			v-if="!canEdit"
+			v-if="canEdit"
 			class="deleteBox pointer"
 			src="/static/images/close.png"
 			style="width:32px;height:32px"
@@ -22,24 +22,26 @@
 	<div v-else class="el-upload">
 		<el-upload
 			ref="el-upload"
+			v-loading="loading"
 			class="el-upload"
 			action
-			:disabled="canEdit"
+			:disabled="!canEdit"
 			:http-request="myUpload"
 			:before-upload="beforeUpload"
 			list-type="picture-card"
-			:limit="limit"
+			:limit="limitNum"
 		>
 			<i class="el-icon-plus"></i>
 		</el-upload>
 	</div>
+	<p class="infoTip">{{ info }}</p>
 	<overLay :src="currentImg" :isShow="isShow" @closeOverLay="closeOverLay" />
 </div>
 </template>
 
 <script>
-import { uploadImg } from '@/api/upload';
-import overLay from '@/components/VideoOverLay';
+// import { uploadImg } from '@/api/upload';
+import overLay from './VideoOverLay';
 export default {
   components: {
     overLay
@@ -48,15 +50,15 @@ export default {
     // 图片上传后是否能编辑
     canEdit: {
       type: Boolean,
-      default: false
+      default: true
     },
     // 上传文件大小限制
-    limitNum: {
+    limitSize: {
       type: Number,
       default: 2
     },
     // 上传文件数量限制
-    limit: {
+    limitNum: {
       type: Number,
       default: 0
     },
@@ -92,7 +94,8 @@ export default {
       currentImg: '',
       isShow: false,
       isError: false,
-      fileList: []
+      fileList: [],
+      loading: false
     };
   },
   methods: {
@@ -108,18 +111,22 @@ export default {
      * @param {*} key   清空的值
      */
     deletePic(vm) {
-      this.$confirm(this.content, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
+      this.$confirm(
+        this.content ? this.content : '确定要删除图片吗？',
+        '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      )
         .then(() => {
           this.$emit('emptyImgUrl');
         })
         .catch(err => {
           this.$message({
             type: 'info',
-            message: err !== 'cancel' ? err : '已取消删除'
+            message: err !== 'cancel' ? err : '已取消'
           });
         });
     },
@@ -127,7 +134,7 @@ export default {
     beforeUpload(file) {
       try {
         let picRule = 'image/png,image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < this.limitNum;
+        const isLt2M = file.size / 1024 / 1024 < this.limitSize;
         if (!picRule.includes(file.type)) {
           this.$message.error('上传图片只能是jpg或png格式!');
           return false;
@@ -142,20 +149,22 @@ export default {
       }
     },
     myUpload(content, index) {
+      this.loading = true;
       let form = new FormData();
       form.append('imageFile', content.file);
-      uploadImg(form).then(res => {
-        const data = res.data;
-        if (data.code === 200) {
-          this.$message({
-            message: '上传成功',
-            type: 'success'
-          });
-          this.$emit('uploadSuccess', data.data);
-        } else {
-          this.$message.error(data.message);
-        }
-      });
+      // uploadImg(form).then(res => {
+      //   const data = res.data;
+      //   if (data.code === 200) {
+      //     this.$message({
+      //       message: '上传成功',
+      //       type: 'success'
+      //     });
+      //     this.$emit('uploadSuccess', data.data);
+      //   } else {
+      //     this.$message.error(data.message);
+      //   }
+      //   this.loading = false;
+      // });
     }
   }
 };
@@ -169,6 +178,11 @@ export default {
   position: absolute;
   top: -17px;
   right: -18px;
+}
+.infoTip {
+  position: absolute;
+  bottom: -30px;
+  color: red;
 }
 </style>
 

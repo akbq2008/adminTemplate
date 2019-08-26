@@ -22,10 +22,10 @@
 		>{{ item.name }}</el-option>
 	</el-select>
 	<el-select
+		v-if="showArea"
 		v-model="currentArea"
 		filterable
 		placeholder="请选择"
-		style="display:none;"
 		@change="selectArea"
 	>
 		<el-option
@@ -120,7 +120,9 @@ export default {
           }
         });
       }
-      this.$emit('currentSelected', this.selectedData);
+      if (!this.showArea) {
+        this.$emit('currentSelected', this.selectedData);
+      }
       this.areasData = areas[val];
     },
     selectArea(val) {

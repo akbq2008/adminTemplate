@@ -10,7 +10,7 @@
 			<Veri :phone="user.phone" msType="2" />
 		</el-form-item>
 		<el-form-item label="新的密码：">
-			<el-input placeholder="请输入密码" v-model="user.password" type="password" style="width:200px" />
+			<el-input v-model="user.password" placeholder="请输入密码" type="password" style="width:200px" />
 		</el-form-item>
 		<el-form-item>
 			<el-button type="primary" style="width:240px;margin-left:-75px;" @click="confirm">确认修改</el-button>

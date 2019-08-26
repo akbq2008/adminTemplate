@@ -3,7 +3,7 @@
 	style="width:112px;box-sizing:border-box;"
 	type="primary"
 	:disabled="canClick"
-    @click="getVerificationCode"
+	@click="getVerificationCode"
 >{{ buttonText }}</el-button>
 </template>
 
