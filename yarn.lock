@@ -3802,10 +3802,10 @@ escodegen@^1.9.1:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-ylfe@^0.1.7:
-  version "0.1.7"
-  resolved "https://registry.npm.taobao.org/eslint-config-ylfe/download/eslint-config-ylfe-0.1.7.tgz#f4eb6643ebbdc488d21c9ff1d15f7f53511fc55f"
-  integrity sha1-9OtmQ+u9xIjSHJ/x0V9/U1EfxV8=
+eslint-config-vue@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.npm.taobao.org/eslint-config-vue/download/eslint-config-vue-2.0.2.tgz#a3ab1004899e49327a94c63e24d47a396b2f4848"
+  integrity sha1-o6sQBImeSTJ6lMY+JNR6OWsvSEg=
 
 eslint-loader@^2.1.2:
   version "2.2.1"

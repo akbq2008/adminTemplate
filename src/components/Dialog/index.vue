@@ -1,19 +1,19 @@
 <template>
-<el-dialog
-	:title="dialogTitle"
-	:visible="dialogFormVisible"
-	:close-on-click-modal="showModal"
-	:style="dialogStyle"
-	@close="close"
->
-	<el-form :label-width="width">
-		<slot></slot>
-		<el-form-item v-if="showBtn" class="cr">
-			<el-button @click="close">取消</el-button>
-			<el-button type="primary" @click="save">确定</el-button>
-		</el-form-item>
-	</el-form>
-</el-dialog>
+  <el-dialog
+    :title="dialogTitle"
+    :visible="dialogFormVisible"
+    :close-on-click-modal="showModal"
+    :style="dialogStyle"
+    @close="close"
+  >
+    <el-form :label-width="width">
+      <slot />
+      <el-form-item v-if="showBtn" class="cr">
+        <el-button @click="close">取消</el-button>
+        <el-button type="primary" @click="save">确定</el-button>
+      </el-form-item>
+    </el-form>
+  </el-dialog>
 </template>
 
 <script>
@@ -35,7 +35,7 @@ export default {
       default: () => {
         return {
           width: '200px;'
-        };
+        }
       }
     },
     width: {
@@ -52,14 +52,14 @@ export default {
     }
   },
   methods: {
-    save() {
-      this.$emit('saveDialog');
+    save () {
+      this.$emit('saveDialog')
     },
-    close() {
-      this.$emit('closeDialog', false);
+    close () {
+      this.$emit('closeDialog', false)
     }
   }
-};
+}
 </script>
 
 <style scoped>

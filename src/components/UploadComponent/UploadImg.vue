@@ -1,47 +1,59 @@
 <template>
-<div style="position:relative">
-	<div v-if="imgUrl" class="relative">
-		<img
-			:src="imgUrl"
-			alt
-			class="pointer"
-			:style="{
-				width: imgStyle.width,
-				height: imgStyle.height
-			}"
-			@click="previewImg(imgUrl)"
-		/>
-		<img
-			v-if="canEdit"
-			class="deleteBox pointer"
-			src="/static/images/close.png"
-			style="width:32px;height:32px"
-			@click="deletePic(this)"
-		/>
-	</div>
-	<div v-else class="el-upload">
-		<el-upload
-			ref="el-upload"
-			v-loading="loading"
-			class="el-upload"
-			action
-			:disabled="!canEdit"
-			:http-request="myUpload"
-			:before-upload="beforeUpload"
-			list-type="picture-card"
-			:limit="limitNum"
-		>
-			<i class="el-icon-plus"></i>
-		</el-upload>
-	</div>
-	<p class="infoTip">{{ info }}</p>
-	<overLay :src="currentImg" :isShow="isShow" @closeOverLay="closeOverLay" />
-</div>
+  <div style="position:relative">
+    <div
+      v-if="imgUrl"
+      class="relative"
+    >
+      <img
+        :src="imgUrl"
+        alt
+        class="pointer"
+        :style="{
+          width: imgStyle.width,
+          height: imgStyle.height
+        }"
+        @click="gUrl"
+      >
+      <img
+        v-if="canEdit"
+        class="deleteBox pointer"
+        src="/static/images/close.png"
+        style="width:32px;height:32px"
+        @click="deletePic(this)"
+      >
+    </div>
+    <div
+      v-else
+      class="el-upload"
+    >
+      <el-upload
+        ref="el-upload"
+        v-loading="loading"
+        class="el-upload"
+        action
+        :disabled="!canEdit"
+        :http-request="myUpload"
+        :before-upload="beforeUpload"
+        list-type="picture-card"
+        :limit="limitNum"
+      >
+        <i class="el-icon-plus" />
+      </el-upload>
+    </div>
+    <p class="infoTip">
+      {{ info }}
+    </p>
+    <overLay
+      :src="currentImg"
+      :is-show="isShow"
+      @closeOverLay="closeOverLay"
+    />
+  </div>
 </template>
 
 <script>
 // import { uploadImg } from '@/api/upload';
-import overLay from './VideoOverLay';
+import overLay from './VideoOverLay'
 export default {
   components: {
     overLay
@@ -69,7 +81,7 @@ export default {
         return {
           width: '200px',
           height: '200px'
-        };
+        }
       }
     },
     // 图片url
@@ -89,28 +101,28 @@ export default {
       default: '确认要替换图片吗？'
     }
   },
-  data() {
+  data () {
     return {
       currentImg: '',
       isShow: false,
       isError: false,
       fileList: [],
       loading: false
-    };
+    }
   },
   methods: {
-    closeOverLay() {
-      this.isShow = false;
+    closeOverLay () {
+      this.isShow = false
     },
-    previewImg(url) {
-      this.currentImg = url;
-      this.isShow = true;
+    previewImg (url) {
+      this.currentImg = url
+      this.isShow = true
     },
     /**
      *
      * @param {*} key   清空的值
      */
-    deletePic(vm) {
+    deletePic (vm) {
       this.$confirm(
         this.content ? this.content : '确定要删除图片吗？',
         '提示',
@@ -121,37 +133,37 @@ export default {
         }
       )
         .then(() => {
-          this.$emit('emptyImgUrl');
+          this.$emit('emptyImgUrl')
         })
         .catch(err => {
           this.$message({
             type: 'info',
             message: err !== 'cancel' ? err : '已取消'
-          });
-        });
+          })
+        })
     },
 
-    beforeUpload(file) {
+    beforeUpload (file) {
       try {
-        let picRule = 'image/png,image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < this.limitSize;
+        const picRule = 'image/png,image/jpeg'
+        const isLt2M = file.size / 1024 / 1024 < this.limitSize
         if (!picRule.includes(file.type)) {
-          this.$message.error('上传图片只能是jpg或png格式!');
-          return false;
+          this.$message.error('上传图片只能是jpg或png格式!')
+          return false
         }
 
         if (!isLt2M) {
-          this.$message.error('上传图片大小不能超过 2MB!');
-          return false;
+          this.$message.error('上传图片大小不能超过 2MB!')
+          return false
         }
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
-    myUpload(content, index) {
-      this.loading = true;
-      let form = new FormData();
-      form.append('imageFile', content.file);
+    myUpload (content, index) {
+      this.loading = true
+      const form = new FormData()
+      form.append('imageFile', content.file)
       // uploadImg(form).then(res => {
       //   const data = res.data;
       //   if (data.code === 200) {
@@ -167,7 +179,7 @@ export default {
       // });
     }
   }
-};
+}
 </script>
 
 <style scoped>
@@ -185,4 +197,3 @@ export default {
   color: red;
 }
 </style>
-

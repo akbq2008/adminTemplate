@@ -1,5 +1,5 @@
 export default {
-  data() {
+  data () {
     return {
       list: [],
       page: 1,
@@ -12,44 +12,44 @@ export default {
       startTime: '',
       endTime: '',
       dialogTitle: '标题'
-    };
+    }
   },
   methods: {
     /**
       *
       * @param {*} title  dialog标题
       */
-    oepnDialog(title) {
-      this.dialogFormVisible = true;
-      this.dialogTitle = title;
+    oepnDialog (title) {
+      this.dialogFormVisible = true
+      this.dialogTitle = title
     },
     /**
      * 关闭dialog
      */
-    closeDialog() {
-      this.dialogFormVisible = false;
+    closeDialog () {
+      this.dialogFormVisible = false
     },
-    handleSearch() {
+    handleSearch () {
       if (this.time && this.time.length > 0) {
-        this.startTime = this.time[0].getTime() / 1000;
-        this.endTime = this.time[1].getTime() / 1000;
+        this.startTime = this.time[0].getTime() / 1000
+        this.endTime = this.time[1].getTime() / 1000
       }
-      this.page = 1;
-      this.getListData();
+      this.page = 1
+      this.getListData()
     },
-    handleSelectionChange(val, key) {
-      this.selected = [];
+    handleSelectionChange (val, key) {
+      this.selected = []
       val.forEach(item => {
-        this.selected.push(+item[key] ? +item[key] : +item.id);
-      });
+        this.selected.push(+item[key] ? +item[key] : +item.id)
+      })
     },
-    handleOperation(key, fun, title, callback) {
+    handleOperation (key, fun, title, callback) {
       if (this.selected.length === 0) {
         this.$message({
           message: '请先选择',
           type: 'warning'
-        });
-        return;
+        })
+        return
       }
       if (this.selected.length !== 0) {
         this.$confirm(title || '确认要删除吗？', '提示', {
@@ -59,35 +59,35 @@ export default {
 
         }).then(() => {
           try {
-            let formData = {
+            const formData = {
               [key]: this.selected
-            };
+            }
             fun(formData).then(res => {
               if (callback) {
-                callback();
+                callback()
               } else {
-                const data = res.data;
+                const data = res.data
                 if (res.data.code === 200) {
                   this.$message({
                     type: 'success',
                     message: '操作成功!'
-                  });
-                  this.page = 1;
-                  this.getListData();
-                  this.selected = [];
+                  })
+                  this.page = 1
+                  this.getListData()
+                  this.selected = []
                 } else {
                   this.$message({
                     type: 'error',
                     message: data.message
-                  });
+                  })
                 }
               }
-            });
+            })
           } catch (error) {
-
+            console.log(error)
           }
-        });
+        })
       }
     }
   }
-};
+}

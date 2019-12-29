@@ -1,42 +1,38 @@
 <template>
-<div>
-	<video controls ref="videoBox" :src="currentUrl" style="  visibility: hidden;width:0;height:0"></video>
-	<div v-if="videoUrl" class="relative inline-block">
-		<video style="width:800px;height:400px" controls :src="videoUrl"></video>
-		<img src="/static/images/close.png" alt class="close" @click="closeVideo" />
-	</div>
-	<div v-else class="el-upload">
-		<el-upload
-			ref="upload"
-			class="el-upload"
-			action="/upload/upload-video"
-			:http-request="myUpload"
-			:before-upload="beforeUpload"
-			list-type="picture-card"
-			accept=".mp4"
-			:on-progress="uploadVideoProcess"
-			:limit="limit"
-		>
-			<i class="el-icon-plus"></i>
-		</el-upload>
-		<!-- <el-progress
+  <div>
+    <video ref="videoBox" controls :src="currentUrl" style="  visibility: hidden;width:0;height:0" />
+    <div v-if="videoUrl" class="relative inline-block">
+      <video style="width:800px;height:400px" controls :src="videoUrl" />
+      <img src="/static/images/close.png" alt class="close" @click="closeVideo">
+    </div>
+    <div v-else class="el-upload">
+      <el-upload
+        ref="upload"
+        class="el-upload"
+        action="/upload/upload-video"
+        :http-request="myUpload"
+        :before-upload="beforeUpload"
+        list-type="picture-card"
+        accept=".mp4"
+        :on-progress="uploadVideoProcess"
+        :limit="limit"
+      >
+        <i class="el-icon-plus" />
+      </el-upload>
+      <!-- <el-progress
         v-if="videoFlag == true"
         type="circle"
         :percentage="videoUploadPercent"
         style="margin-top:30px;"
       ></el-progress>-->
-		<p style="color:red" c :class="{ hidden: hidden }">*{{ info }}</p>
-	</div>
-</div>
+      <p style="color:red" c :class="{ hidden: hidden }">*{{ info }}</p>
+    </div>
+  </div>
 </template>
 
 <script>
-import { uploadVideo } from '@/api/upload';
-import overLay from '@/components/VideoOverLay';
+import { uploadVideo } from '@/api/upload'
 export default {
-  components: {
-    overLay
-  },
   props: {
     limit: {
       type: Number,
@@ -52,7 +48,7 @@ export default {
         return {
           width: '200px',
           height: '200px'
-        };
+        }
       }
     },
     videoUrl: {
@@ -69,72 +65,72 @@ export default {
       default: '确认要替换视频吗？'
     }
   },
-  data() {
+  data () {
     return {
       currentImg: '',
       isShow: false,
       currentUrl: ''
-    };
+    }
   },
   methods: {
-    uploadVideoProcess(e, file, fileList) {
-      console.log(e, file, fileList);
+    uploadVideoProcess (e, file, fileList) {
+      console.log(e, file, fileList)
     },
     /**
      *
      * @param {*} key   清空的值
      */
-    closeVideo(vm) {
+    closeVideo (vm) {
       this.$confirm(this.content, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
         .then(() => {
-          this.$emit('emptyVideo');
+          this.$emit('emptyVideo')
         })
         .catch(err => {
           this.$message({
             type: 'info',
             message: err !== 'cancel' ? err : '已取消删除'
-          });
-        });
+          })
+        })
     },
-    beforeUpload(file) {},
-    myUpload(content, index) {
-      let form = new FormData();
-      form.append('file', content.file);
+    beforeUpload (file) {},
+    myUpload (content, index) {
+      const form = new FormData()
+      form.append('file', content.file)
       uploadVideo(form).then(res => {
-        const data = res.data;
+        const data = res.data
         if (data.code === 200) {
-          this.currentUrl = data.data;
+          this.currentUrl = data.data
           this.$nextTick(() => {
-            let _this = this;
-            _this.$refs.videoBox.oncanplay = function() {
+            const _this = this
+            _this.$refs.videoBox.oncanplay = function () {
               if (_this.$refs.videoBox.duration > 15) {
-                _this.$message.error('视频时间应小于15秒');
-                _this.$refs.upload.clearFiles();
-                return false;
+                _this.$message.error('视频时间应小于15秒')
+                _this.$refs.upload.clearFiles()
+                return false
               } else {
                 _this.$message({
                   message: '上传成功',
                   type: 'success'
-                });
-                _this.$emit('uploadVideoSuccess', data.data);
+                })
+                _this.$emit('uploadVideoSuccess', data.data)
               }
-            };
-          });
+            }
+          })
         } else {
           this.$message({
             showClose: true,
             message: data.message,
             type: 'error'
-          });
+          })
         }
-      });
+      })
     }
   }
-};
+}
 </script>
 
 <style scoped>

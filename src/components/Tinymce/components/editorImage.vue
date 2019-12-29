@@ -5,7 +5,6 @@
       icon="el-icon-upload"
       size="mini"
       type="primary"
-      @click=" dialogVisible=true"
     >上传图片
     </el-button>
     <el-dialog :visible.sync="dialogVisible">
@@ -20,7 +19,7 @@
           list-type="picture-card"
           :action="imgUrl()"
         >
-          <i class="el-icon-plus"></i>
+          <i class="el-icon-plus" />
         </el-upload>
       </div>
       <div class="ct p_up">
@@ -36,90 +35,89 @@
 
 <script>
 // import { getToken } from 'api/qiniu'
-import { uploadImg } from "@/api/upload";
+import { uploadImg } from '@/api/upload'
 export default {
-  name: "EditorSlideUpload",
+  name: 'EditorSlideUpload',
   props: {
     color: {
       type: String,
-      default: "#1890ff"
+      default: '#1890ff'
     }
   },
-  data() {
+  data () {
     return {
       dialogVisible: false,
       listObj: {},
       fileList: []
-    };
+    }
   },
   methods: {
-    checkAllSuccess() {
+    checkAllSuccess () {
       return Object.keys(this.listObj).every(
         item => this.listObj[item].hasSuccess
-      );
+      )
     },
-    handleSubmit() {
-      const arr = Object.keys(this.listObj).map(v => this.listObj[v]);
+    handleSubmit () {
+      const arr = Object.keys(this.listObj).map(v => this.listObj[v])
       if (arr.length === 0) {
         this.$message(
-          "请等待所有图片上传成功 或 出现了网络问题，请刷新页面重新上传！"
-        );
-        return;
+          '请等待所有图片上传成功 或 出现了网络问题，请刷新页面重新上传！'
+        )
+        return
       }
-      this.$emit("successCBK", arr);
-      this.listObj = {};
-      this.fileList = [];
-      this.dialogVisible = false;
+      this.$emit('successCBK', arr)
+      this.listObj = {}
+      this.fileList = []
+      this.dialogVisible = false
     },
-    handleSuccess(response, file) {
-      consoel.log(response, file);
-      const uid = file.uid;
-      const objKeyArr = Object.keys(this.listObj);
+    handleSuccess (response, file) {
+      const uid = file.uid
+      const objKeyArr = Object.keys(this.listObj)
       for (let i = 0, len = objKeyArr.length; i < len; i++) {
         if (this.listObj[objKeyArr[i]].uid === uid) {
-          this.listObj[objKeyArr[i]].url = response.files.file;
-          this.listObj[objKeyArr[i]].hasSuccess = true;
-          return;
+          this.listObj[objKeyArr[i]].url = response.files.file
+          this.listObj[objKeyArr[i]].hasSuccess = true
+          return
         }
       }
     },
-    handleRemove(file) {
-      const uid = file.uid;
-      const objKeyArr = Object.keys(this.listObj);
+    handleRemove (file) {
+      const uid = file.uid
+      const objKeyArr = Object.keys(this.listObj)
       for (let i = 0, len = objKeyArr.length; i < len; i++) {
         if (this.listObj[objKeyArr[i]].uid === uid) {
-          delete this.listObj[objKeyArr[i]];
-          return;
+          delete this.listObj[objKeyArr[i]]
+          return
         }
       }
     },
-    beforeUpload(file) {
-      let picRule = "image/png,image/jpeg,image/gif";
-      const isLt2M = file.size / 1024 / 1024 < 2;
+    beforeUpload (file) {
+      const picRule = 'image/png,image/jpeg,image/gif'
+      const isLt2M = file.size / 1024 / 1024 < 2
       if (!picRule.includes(file.type)) {
-        this.$message.error("上传图片只能是 JPG，png 格式!");
-        return;
+        this.$message.error('上传图片只能是 JPG，png 格式!')
+        return
       }
 
       if (!isLt2M) {
-        this.$message.error("上传图片大小不能超过 2MB!");
-        return;
+        this.$message.error('上传图片大小不能超过 2MB!')
+        return
       }
     },
-    myUpload(file) {
-      const _self = this;
-      const _URL = window.URL || window.webkitURL;
-      const fileName = file.file.uid;
-      this.listObj[fileName] = {};
-      let form = new FormData();
-      form.append("imageFile", file.file);
+    myUpload (file) {
+      const _self = this
+      const _URL = window.URL || window.webkitURL
+      const fileName = file.file.uid
+      this.listObj[fileName] = {}
+      const form = new FormData()
+      form.append('imageFile', file.file)
       uploadImg(form).then(res => {
-        const data = res.data;
+        const data = res.data
         if (data.data) {
           return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.src = _URL.createObjectURL(file.file);
-            img.onload = function() {
+            const img = new Image()
+            img.src = _URL.createObjectURL(file.file)
+            img.onload = function () {
               _self.listObj[fileName] = {
                 hasSuccess: false,
                 uid: file.file.uid,
@@ -127,15 +125,15 @@ export default {
                 height: this.height,
                 url: data.data.path,
                 id: data.data.id
-              };
-            };
-            resolve(true);
-          });
+              }
+            }
+            resolve(true)
+          })
         }
-      });
+      })
     }
   }
-};
+}
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>

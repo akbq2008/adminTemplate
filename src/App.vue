@@ -1,17 +1,17 @@
 <template>
-<div id="app">
-	<router-view />
-</div>
+  <div id="app">
+    <router-view />
+  </div>
 </template>
 
 <script>
-import '@/styles/out_index.css';
+import '@/styles/out_index.css'
 
 export default {
   name: 'App',
-  created() {},
+  created () {},
   methods: {}
-};
+}
 </script>
 <style>
 html,
