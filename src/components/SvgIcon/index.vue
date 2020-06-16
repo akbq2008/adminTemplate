@@ -1,3 +1,7 @@
+<!--
+ * @Author: wang_yechao
+ * @Date: 2020-01-27 10:43:22
+ -->
 <template>
   <div v-if="isExternal" :style="styleExternalIcon" class="svg-external-icon svg-icon" v-on="$listeners" />
   <svg v-else :class="svgClass" aria-hidden="true" v-on="$listeners">
@@ -7,7 +11,9 @@
 
 <script>
 // doc: https://panjiachen.github.io/vue-element-admin-site/feature/component/svg-icon.html#usage
-import { isExternal } from '@/utils/validate'
+import {
+  isExternal
+} from '@/utils/validate'
 
 export default {
   name: 'SvgIcon',
@@ -43,20 +49,23 @@ export default {
     }
   }
 }
+
 </script>
 
 <style scoped>
-.svg-icon {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.15em;
-  fill: currentColor;
-  overflow: hidden;
-}
+  .svg-icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    margin-right: 16px;
+    fill: currentColor;
+    overflow: hidden;
+  }
 
-.svg-external-icon {
-  background-color: currentColor;
-  mask-size: cover!important;
-  display: inline-block;
-}
+  .svg-external-icon {
+    background-color: currentColor;
+    mask-size: cover !important;
+    display: inline-block;
+  }
+
 </style>

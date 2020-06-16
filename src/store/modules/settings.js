@@ -1,3 +1,7 @@
+/*
+ * @Author: wang_yechao
+ * @Date: 2020-06-16 20:10:40
+ */
 import defaultSettings from '@/settings'
 
 const { showSettings, fixedHeader, sidebarLogo } = defaultSettings
@@ -28,4 +32,3 @@ export default {
   mutations,
   actions
 }
-

@@ -152,4 +152,3 @@ export function getDaterange (dayCount, oneDay) {
   }
   return [parseTime(start), parseTime(end)]
 }
-

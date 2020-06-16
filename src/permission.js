@@ -1,60 +1,56 @@
-// import router from './router';
-// import NProgress from 'nprogress'; // Progress 进度条
-// import 'nprogress/nprogress.css'; // Progress 进度条样式
+/*
+ * @Author: wang_yechao
+ * @Date: 2020-06-16 20:10:40
+ */
+// /*
+//  * @Author: wang_yechao
+//  * @Date: 2020-06-16 20:10:40
+//  */
+// import router from './router'
+// import NProgress from 'nprogress' // Progress 进度条
+// import 'nprogress/nprogress.css' // Progress 进度条样式
 
 // import {
 //   getToken
-// } from '@/utils/auth'; // 验权
+// } from '@/utils/auth' // 验权
 
-// import store from './store';
+// import store from './store'
 
-// const whiteList = ['/login']; // 不重定向白名单
-// let registerRouteFresh = true;
+// const whiteList = ['/login'] // 不重定向白名单
+// let registerRouteFresh = true
 // router.beforeEach((to, from, next) => {
-//   NProgress.start();
+//   NProgress.start()
 //   if (getToken()) {
-
 //     if (to.path === '/login') {
 //       next({
 //         path: '/'
-//       });
-//       NProgress.done(); // if current page is dashboard will not trigger	afterEach hook, so manually handle it
+//       })
+//       NProgress.done()
 //     } else {
-//       store.dispatch('setTaskNum');
-//       // console.log(to, router.options.routes);
-//       // next();
-//       // if (store.getters.permission.includes(to.meta.title)) {
-//       //   next();
-//       // } else {
-//       //   console.log("没有权限");
-//       //   next({
-//       //     path: "/"
-//       //   });
-//       // }
+//       store.dispatch('setTaskNum')
 //       if (registerRouteFresh) {
 //         store.dispatch('GetSetInfo').then(() => {
-//           router.addRoutes(store.getters.addRoutes);
-//           registerRouteFresh = false;
+//           router.addRoutes(store.getters.addRoutes)
+//           registerRouteFresh = false
 //           next({
 //             ...to,
 //             replace: true
-//           });
-//         });
+//           })
+//         })
 //       } else {
-//         next();
+//         next()
 //       }
-
 //     }
 //   } else {
 //     if (whiteList.indexOf(to.path) !== -1) {
-//       next();
+//       next()
 //     } else {
-//       next(`/login?redirect=${to.path}`); // 否则全部重定向到登录页
-//       NProgress.done();
+//       next(`/login?redirect=${to.path}`) // 否则全部重定向到登录页
+//       NProgress.done()
 //     }
 //   }
-// });
+// })
 
 // router.afterEach(() => {
-//   NProgress.done(); // 结束Progress
-// });
+//   NProgress.done() // 结束Progress
+// })

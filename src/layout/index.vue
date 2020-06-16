@@ -1,3 +1,7 @@
+<!--
+ * @Author: wang_yechao
+ * @Date: 2020-06-16 20:10:40
+-->
 <template>
   <div :class="classObj" class="app-wrapper">
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
@@ -53,7 +57,7 @@ export default {
 <style lang="scss" scoped>
   @import "~@/styles/mixin.scss";
   @import "~@/styles/variables.scss";
-
+  @import "~@/styles/sidebar.scss";
   .app-wrapper {
     @include clearfix;
     position: relative;

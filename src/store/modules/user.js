@@ -42,9 +42,9 @@ const actions = {
       getInfo(state.token).then(response => {
         const { data } = response
 
-        if (!data) {
-          reject('Verification failed, please Login again.')
-        }
+        // if (!data) {
+        //   reject('Verification failed, please Login again.')
+        // }
 
         const { name, avatar } = data
 
@@ -87,4 +87,3 @@ export default {
   mutations,
   actions
 }
-

@@ -17,7 +17,7 @@
           :http-request="myUpload"
           :before-upload="beforeUpload"
           list-type="picture-card"
-          :action="imgUrl()"
+          :action="''"
         >
           <i class="el-icon-plus" />
         </el-upload>
@@ -35,7 +35,7 @@
 
 <script>
 // import { getToken } from 'api/qiniu'
-import { uploadImg } from '@/api/upload'
+// import { uploadImg } from '@/api/upload'
 export default {
   name: 'EditorSlideUpload',
   props: {
@@ -101,36 +101,35 @@ export default {
 
       if (!isLt2M) {
         this.$message.error('上传图片大小不能超过 2MB!')
-        return
       }
     },
     myUpload (file) {
-      const _self = this
-      const _URL = window.URL || window.webkitURL
-      const fileName = file.file.uid
-      this.listObj[fileName] = {}
-      const form = new FormData()
-      form.append('imageFile', file.file)
-      uploadImg(form).then(res => {
-        const data = res.data
-        if (data.data) {
-          return new Promise((resolve, reject) => {
-            const img = new Image()
-            img.src = _URL.createObjectURL(file.file)
-            img.onload = function () {
-              _self.listObj[fileName] = {
-                hasSuccess: false,
-                uid: file.file.uid,
-                width: this.width,
-                height: this.height,
-                url: data.data.path,
-                id: data.data.id
-              }
-            }
-            resolve(true)
-          })
-        }
-      })
+      // const _self = this
+      // const _URL = window.URL || window.webkitURL
+      // const fileName = file.file.uid
+      // this.listObj[fileName] = {}
+      // const form = new FormData()
+      // form.append('imageFile', file.file)
+      // uploadImg(form).then(res => {
+      //   const data = res.data
+      //   if (data.data) {
+      //     return new Promise((resolve, reject) => {
+      //       const img = new Image()
+      //       img.src = _URL.createObjectURL(file.file)
+      //       img.onload = function () {
+      //         _self.listObj[fileName] = {
+      //           hasSuccess: false,
+      //           uid: file.file.uid,
+      //           width: this.width,
+      //           height: this.height,
+      //           url: data.data.path,
+      //           id: data.data.id
+      //         }
+      //       }
+      //       resolve(true)
+      //     })
+      //   }
+      // })
     }
   }
 }

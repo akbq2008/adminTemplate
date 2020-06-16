@@ -1,3 +1,7 @@
+<!--
+ * @Author: wang_yechao
+ * @Date: 2020-06-16 20:10:40
+-->
 <template>
   <div id="app">
     <router-view />
@@ -5,7 +9,6 @@
 </template>
 
 <script>
-import '@/styles/out_index.css'
 
 export default {
   name: 'App',

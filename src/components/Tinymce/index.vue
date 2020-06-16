@@ -14,10 +14,9 @@
 </template>
 
 <script>
-import editorImage from './components/editorImage'
-import plugins from './plugins'
-import toolbar from './toolbar'
-
+import editorImage from '@/components/Tinymce/components/editorImage'
+import plugins from '@/components/Tinymce/plugins'
+import toolbar from '@/components/Tinymce/toolbar'
 export default {
   name: 'Tinymce',
   components: { editorImage },
